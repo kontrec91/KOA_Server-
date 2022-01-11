@@ -1,44 +1,39 @@
-import Koa from 'koa';
-import KoaRouter from '@koa/router';
-import bodyParser  from 'koa-bodyparser';
+import Koa from "koa";
+import KoaRouter from "@koa/router";
+import bodyParser from "koa-bodyparser";
 
-import { getToDoList } from "./db.js";
-import { setToDoItem } from "./db.js";
-import { createUser } from "./db.js";
-import { checkUser } from "./db.js";
-import main from "./db.js";
-
+import main, { isValidID } from "./db.js";
+import { getToDoList } from "./components/getToDoList.js";
+import { setToDoItem } from "./components/setToDoItem.js";
+import { userLogin } from "./components/userLogin.js";
+import { userReg } from "./components/userReg.js";
 
 const hostname = "127.0.0.1";
 const port = 3000;
 
 const app = new Koa();
 const router = new KoaRouter();
-app.use(bodyParser());//as middleware
-
-const collectionInDBTodos = "ToDoCollectionTodos";
-const collectionInDBUsers = "ToDoCollectionUser";
+app.use(bodyParser()); //as middleware
 
 main();
 
-router.get('/get-data', async (ctx) => {
-  await getToDoList(collectionInDBTodos, ctx, ctx.request.query.user_id);
-})
-
-router.post('/add-data', async (ctx) => {
-  await setToDoItem(ctx.request.body, collectionInDBTodos, ctx);
-})
-
-router.post('/reg', async (ctx) => {
-  await createUser(ctx.request.body, collectionInDBUsers, ctx);
-})
-
-router.post('/login', async (ctx) => {
-  await checkUser(ctx.request.body, collectionInDBUsers, collectionInDBTodos, ctx);
-})
-
 app.use(router.routes()).use(router.allowedMethods());
 
+router.get("/get-data", async (ctx) => {
+  await getToDoList(ctx);
+});
+
+router.post("/add-data", async (ctx) => {
+  await isValidID(ctx, setToDoItem);
+});
+
+router.post("/reg", async (ctx) => {
+  await userReg(ctx);
+});
+
+router.post("/login", async (ctx) => {
+  await userLogin(ctx);
+});
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
