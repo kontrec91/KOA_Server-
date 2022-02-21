@@ -1,16 +1,13 @@
 import { db, collectionInDBTodos } from "../db.js";
+import jwt_decode from "jwt-decode";
 
 export async function getToDoList(ctx) {
-  const userToDoListArray = await db
-    .collection(collectionInDBTodos)
-    .find({ userId: ctx.request.query.user_id })
-    .toArray();
-
-  if (userToDoListArray.length) {
-    ctx.response.status = 200;
-    ctx.body = userToDoListArray;
-  } else {
-    ctx.response.status = 404;
-    ctx.body = { message: "Status 404: Not Found. User haven`t any data yet" };
+  if (ctx.response.status < 401 || ctx.response.status >= 200) {
+    const encodedTocken = ctx.request.headers.authorization.split(" ")[1];
+    const decodedTocken = jwt_decode(encodedTocken);
+    const userToDoListArray = await db.collection(collectionInDBTodos).find({ userId: decodedTocken._id }).toArray();
+    if (userToDoListArray.length) {
+      ctx.body = userToDoListArray;
+    }
   }
 }

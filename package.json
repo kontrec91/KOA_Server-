@@ -16,8 +16,19 @@
   "author": "Roman",
   "license": "ISC",
   "dependencies": {
+    "@koa/cors": "^3.1.0",
     "@koa/router": "^10.1.1",
+    "crypto-js": "^4.1.1",
+    "crypto-random-string": "^4.0.0",
+    "dotenv": "^16.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
     "koa": "^2.13.4",
-    "koa-bodyparser": "^4.3.0"
+    "koa-bodyparser": "^4.3.0",
+    "koa-cors": "^0.0.16",
+    "object-hash": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.1.0"
   }
 }
