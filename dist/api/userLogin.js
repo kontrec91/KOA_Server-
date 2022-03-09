@@ -7,7 +7,6 @@ export async function userLogin(ctx) {
   const decriptPass = CryptoJS.AES.decrypt(ctx.request.body.password, process.env.SECRET_KEY).toString(
     CryptoJS.enc.Utf8
   );
-  console.log('decriptPass', decriptPass);
   const usersInDB = await db
     .collection(collectionInDBUsers)
     .find({

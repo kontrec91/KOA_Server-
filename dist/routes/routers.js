@@ -46,7 +46,6 @@ export const registration = () =>
   });
 export const logIn = () =>
   router.post("/login", async (ctx) => {
-    console.log('params in login', ctx.request.body);
     await userLogin(ctx);
   });
 export const refreshtokens = () =>
