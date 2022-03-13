@@ -54,5 +54,6 @@ export const logIn = router.post("/login", async (ctx: ResponseGenerator) => {
 });
 
 export const refreshtokens = router.post("/refresh", async (ctx: ResponseGenerator) => {
+  // export const refreshtokens = router.get("/refresh", async (ctx: ResponseGenerator) => {
   await refreshTokens(ctx, ctx.request.body.userId);
 });

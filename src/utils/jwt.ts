@@ -25,7 +25,6 @@ export const verifyToken = async (ctx: ResponseGenerator, next: () => void) => {
 
 export const refreshTokens = async (ctx: ResponseGenerator, userID: string) => {
   const tokens: Tokens = await createTokens(userID);
-
   ctx.response.status = 200;
   ctx.body = tokens;
 };
@@ -37,7 +36,7 @@ export const createTokens = async (userID: string) => {
 
     await db
       .collection(collectionInDBUsers)
-      .updateOne({ _id: new ObjectId(userID) }, { $set: { refreshTocken: refreshToken } });
+      .updateOne({ _id: new ObjectId(userID) }, { $set: { refreshToken: refreshToken } });
     return {
       accesToken,
       refreshToken,

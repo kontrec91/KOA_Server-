@@ -5,6 +5,7 @@ import { createTokens } from "../utils/jwt";
 import { Tokens } from "../utils/Types";
 
 export async function userLogin(ctx) {
+  console.log('data in userLogin', ctx.request.body);
   const decriptPass = CryptoJS.AES.decrypt(ctx.request.body.password, process.env.SECRET_KEY as string).toString(
     CryptoJS.enc.Utf8
     );
